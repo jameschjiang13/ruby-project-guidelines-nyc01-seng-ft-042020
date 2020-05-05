@@ -22,4 +22,13 @@ producer_name_array.each do |producer_name|
     Producer.create(name: producer_name)
 end
 
+anime_data_f = anime_data["anime"].reject do |anime|
+    #this gives all the animes that have producers
+    anime["producers"][0] == nil
+end
+
+anime_data_f.each do |anime|
+    #creates all rows and have title, synopsis, rating filled
+    Anime.create(title: anime["title"], synopsis: anime["synopsis"], rating: anime["score"])
+end
 
