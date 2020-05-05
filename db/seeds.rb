@@ -32,3 +32,6 @@ anime_data_f.each do |anime|
     Anime.create(title: anime["title"], synopsis: anime["synopsis"], rating: anime["score"])
 end
 
+assign_producer_id = ""
+
+binding.pry
