@@ -10,3 +10,4 @@ gem "require_all"
 #added gem rest-client and rake
 gem "rest-client"
 gem "rake"
+gem 'tty-prompt'

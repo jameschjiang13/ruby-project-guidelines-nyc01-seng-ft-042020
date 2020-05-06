@@ -46,4 +46,3 @@ end
 
 List.create(name: "My Watch List")
 
-binding.pry
