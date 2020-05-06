@@ -1,18 +1,10 @@
-#created a bin/console.rb to test the API 
-require 'pry'
-require 'rest-client'
-require 'json'
-
-# response = RestClient.get("https://api.jikan.moe/v3/season/2020/spring")
-# data = JSON.parse(response)
+Producer.delete_all
+Anime.delete_all
+List.delete_all
+AnimeList.delete_all
 
 response = RestClient.get("https://api.jikan.moe/v3/season/2020/spring")
 anime_data = JSON.parse(response)
-
-#anime_data["anime"][0]["producers"][0]["name"]
-anime_data_f = anime_data["anime"].reject do |anime|
-    anime["producers"][0] == nil
-end
 
 a = anime_data["anime"].map do |anime|
     anime["producers"][0]
@@ -40,5 +32,18 @@ anime_data_f.each do |anime|
     Anime.create(title: anime["title"], synopsis: anime["synopsis"], rating: anime["score"])
 end
 
+anime_data["anime"].each do |anime|
+    Anime.all.each do |a_instance|
+        if a_instance.title == anime["title"]
+            Producer.all.each do |p_instance|
+                if p_instance.name == anime["producers"][0]["name"]
+                    p_instance.animes << a_instance
+                end
+            end
+        end
+    end
+end
+
+List.create(name: "My Watch List")
 
 binding.pry
