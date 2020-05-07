@@ -7,6 +7,8 @@ prompt = TTY::Prompt.new
 puts ""
 puts "Welcome to My Anime Lists!"
 puts ""
+puts "*******************************"
+puts ""
 sleep(2)
 puts "A place to find new Anime and organize your favorites."
 puts ""
@@ -175,18 +177,20 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit My Lists", "E
             title_to_remove = gets.chomp.strip
             #iterates over the list that the user has chosen to match the title with the input 
             #and then to destroy the instance from the list
+            if list.exists?(title: title_to_remove)
                 list.each do |anime|
                     if anime.title == title_to_remove
-                        anime.destroy
+                        list.delete(anime)
                         puts ""
                         puts "We have removed #{title_to_remove} from your list."
                         puts ""
-                    else 
-                        puts ""
-                        puts "Sorry, we cannot find that Anime in the list."
-                        puts ""
-                    end
+                    end 
                 end
+            else 
+                    puts ""
+                    puts "Sorry, we cannot find that Anime in the list."
+                    puts ""
+            end
 
             #lets get this able to go back to the main menu!  
         end
