@@ -9,7 +9,7 @@ puts "Welcome to My Anime Lists!"
 puts ""
 puts "*******************************"
 puts ""
-sleep(2)
+sleep(1)
 puts "A place to find new Anime and organize your favorites."
 puts ""
     sleep(2)
@@ -27,9 +27,8 @@ while menu_loop == "go"
 
         if first_menu == "Find a New Anime"
             round_counter = 0
-            #current_anime = sorted_anime-listed animes[0]
+            current_anime = (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
             status = 1
-            
                 while status == 1 do
                     puts ""
                     puts "Tile: #{current_anime.title}\nRating: #{current_anime.rating}\nSynopsis: #{current_anime.synopsis}"
@@ -41,18 +40,36 @@ while menu_loop == "go"
                 # 2. have seen it, i like it, find me something similar
                 # 3. not a fan find me something different 
                 # 4. ADDED Done, Show me my lists
-                    choice = prompt.select("Choose an option", "Haven't seen it! Add to #{List.first.name}", "Have seen it, I like it, find me something similar", "Not a fan, find me something different", "Done! Show me My Lists") 
-                    if choice == "Haven't seen it! Add to #{List.first.name}"
-                        AnimeList.create(anime_id: current_anime.id, list_id: 1)
+                    choice = prompt.select("Choose an option", "Add to a list", "Add to #{List.second.name}, and find me something similar", "Keep browsing", "Done! Show me My Lists") 
+                    if choice == "Add to a list"
+                        multiple_choices = [List.first.name, List.second.name]
+                        multiple_return = prompt.multi_select("Which list(s) would you like to add to", multiple_choices)
+                        #prompt multiple 
+                        if multiple_return == [List.first.name]
                             List.first.animes << current_anime
-                        puts ""
-                        puts "DONE! We've added #{current_anime.title} to your list!\n\nHere is another Anime"
+                            puts ""
+                            puts "DONE! We've added #{current_anime.title} to #{List.first.name}!\n\nHere is another Anime"
+                        end
+
+                        if multiple_return == [List.second.name]
+                            List.second.animes << current_anime
+                            puts ""
+                            puts "DONE! We've added #{current_anime.title} to #{List.second.name}!\n\nHere is another Anime"
+                        end
+
+                        if multiple_return == [List.first.name, List.second.name]
+                            List.first.animes << current_anime
+                            List.first.animes << current_anime
+                            puts ""
+                            puts "DONE! We've added #{current_anime.title} to both lists!\n\nHere is another Anime"
+                        end
+
+                        
+                        
                         round_counter += 1
                         current_anime = sorted_anime[round_counter]
                     end
-                    if choice == "Have seen it, I like it, find me something similar"
-                        
-                        #EDITS BY CAROLINE
+                    if choice == "Add to #{List.second.name}, and find me something similar"
                         puts ""
                         yes_or_no = prompt.yes?("Would you like to add this to #{List.second.name} ?")
                         if yes_or_no
@@ -60,12 +77,10 @@ while menu_loop == "go"
                             puts ""
                             puts "Awesome! We've added #{current_anime.title} to your collection."
                         end 
-                        #END OF EDITS
-
+                        already_displayed_array = []
+                        already_displayed_array << current_anime
                         current_producer = current_anime.producer
-                        filtered_anime_data = current_producer.animes.reject do |anime|
-                            anime == current_anime
-                        end
+                        filtered_anime_data = current_producer.animes - already_displayed_array
                         round_counter += 1
                         if filtered_anime_data == []
                             #just in case there is no more animes from this producer
@@ -78,11 +93,12 @@ while menu_loop == "go"
                         puts "Here is a similar Anime!"
                         #how to loop up change the current_anime
                     end
-                    if choice == "Not a fan, find me something different"
+                    if choice == "Keep browsing"
                         puts ""
                         puts "Good thing we've got hundreds of other Anime, here is another!"
                         round_counter += 1
                         current_anime = sorted_anime[round_counter]
+                        List.third.animes << current_anime
                     end
                     if choice == "Done! Show me My Lists"
                         puts ""
