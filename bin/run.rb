@@ -51,7 +51,7 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit My Lists", "E
                     
                     #EDITS BY CAROLINE
                     puts ""
-                    yes_or_no = prompt.yes?("Would you like to add this to My Collection?")
+                    yes_or_no = prompt.yes?("Would you like to add this to #{List.second.name} ?")
                     if yes_or_no
                         List.second.animes << current_anime
                         puts ""
@@ -191,10 +191,41 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit My Lists", "E
             #lets get this able to go back to the main menu!  
         end
 
+        #thursday morning edits
         if inside_view_edit == "Update list name"
-
-        end
-        
+            list_choice = List.first
+            edit_name = prompt.select("Which list name would you like to change?", List.first.name, List.second.name)
+            if edit_name == List.first.name
+                #code to display the animes on list 1
+                anime_list_titles_1 = List.first.animes.map do |anime|
+                    "\n #{anime.title}" 
+                end 
+                puts ""
+                puts "#{List.first.name}:"
+                puts anime_list_titles_1
+                puts ""
+            end
+            if edit_name == List.second.name
+                #code to display the animes on list 2 
+                anime_list_titles_2 = List.second.animes.map do |anime|
+                    "\n #{anime.title}"
+                end 
+                puts ""
+                puts "#{List.second.name}:"
+                puts anime_list_titles_2
+                puts ""
+                list_choice = List.second
+            end 
+            
+            puts "Please type the new name of your list:"
+            puts ""
+            name_change = gets.chomp.strip
+            #assigning the list chosen name = name that they have typed 
+            list_choice.update(name: name_change)
+            puts ""
+            puts "Great! We have changed the name of your list to: #{name_change}"
+            puts ""
+        end  
     end
     ##END OF EDITS 
 
