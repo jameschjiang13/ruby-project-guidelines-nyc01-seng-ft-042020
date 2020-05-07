@@ -23,24 +23,16 @@ puts ""
 # 3. end
 menu_loop = "go"
 while menu_loop == "go"
-    first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit My Lists", "Exit")
+    first_menu = prompt.select("Menu:", "Browse Top Anime", "Search by Title", "View/Edit My Lists", "Exit")
 
-        if first_menu == "Find a New Anime"
-            round_counter = 0
-            current_anime = (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
+        if first_menu == "Browse Top Anime"
             status = 1
                 while status == 1 do
+                    current_anime = (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
                     puts ""
                     puts "Tile: #{current_anime.title}\nRating: #{current_anime.rating}\nSynopsis: #{current_anime.synopsis}"
                     puts ""
-                #options of what to do with the Anime displayed above.
-                # 1. havent seen it add it to my watch list 
-                    ### the interpolated List.first.name in this option reflects if the 
-                    # user wants to change the name of the list
-                # 2. have seen it, i like it, find me something similar
-                # 3. not a fan find me something different 
-                # 4. ADDED Done, Show me my lists
-                    choice = prompt.select("Choose an option", "Add to a list", "Add to #{List.second.name}, and find me something similar", "Keep browsing", "Done! Show me My Lists") 
+                    choice = prompt.select("Choose an option", "Add to a list", "Keep browsing", "Done! Show me My Lists") 
                     if choice == "Add to a list"
                         multiple_choices = [List.first.name, List.second.name]
                         multiple_return = prompt.multi_select("Which list(s) would you like to add to", multiple_choices)
@@ -63,41 +55,34 @@ while menu_loop == "go"
                             puts ""
                             puts "DONE! We've added #{current_anime.title} to both lists!\n\nHere is another Anime"
                         end
-
-                        
-                        
-                        round_counter += 1
-                        current_anime = sorted_anime[round_counter]
                     end
-                    if choice == "Add to #{List.second.name}, and find me something similar"
-                        puts ""
-                        yes_or_no = prompt.yes?("Would you like to add this to #{List.second.name} ?")
-                        if yes_or_no
-                            List.second.animes << current_anime
-                            puts ""
-                            puts "Awesome! We've added #{current_anime.title} to your collection."
-                        end 
-                        already_displayed_array = []
-                        already_displayed_array << current_anime
-                        current_producer = current_anime.producer
-                        filtered_anime_data = current_producer.animes - already_displayed_array
-                        round_counter += 1
-                        if filtered_anime_data == []
-                            #just in case there is no more animes from this producer
-                            current_anime = sorted_anime[round_counter]
-                        else
-                            current_anime = filtered_anime_data.first
-                        end
-                        sleep (2)
-                        puts ""
-                        puts "Here is a similar Anime!"
-                        #how to loop up change the current_anime
-                    end
+                    # if choice == "Add to #{List.second.name}, and find me something similar"
+                    #     puts ""
+                    #     # yes_or_no = prompt.yes?("Would you like to add this to #{List.second.name} ?")
+                    #     # if yes_or_no
+                    #         # List.second.animes << current_anime
+                    #         # puts ""
+                    #         # puts "Awesome! We've added #{current_anime.title} to your collection."
+                    #     # end 
+                    #     already_displayed_array = []
+                    #     already_displayed_array << current_anime
+                    #     current_producer = current_anime.producer
+                    #     filtered_anime_data = current_producer.animes - already_displayed_array
+                    #     round_counter += 1
+                    #     if filtered_anime_data == []
+                    #         #just in case there is no more animes from this producer
+                    #         current_anime = sorted_anime[round_counter]
+                    #     else
+                    #         current_anime = filtered_anime_data.first
+                    #     end
+                    #     sleep (2)
+                    #     puts ""
+                    #     puts "Here is a similar Anime!"
+                    #     #how to loop up change the current_anime
+                    # end
                     if choice == "Keep browsing"
                         puts ""
                         puts "Good thing we've got hundreds of other Anime, here is another!"
-                        round_counter += 1
-                        current_anime = sorted_anime[round_counter]
                         List.third.animes << current_anime
                     end
                     if choice == "Done! Show me My Lists"
@@ -131,7 +116,61 @@ while menu_loop == "go"
             
         end
 
-        ### EDITS BY CAROLINE 
+        if first_menu == "Search by Title"
+            search_status = "go"
+            while search_status == "go" do
+                puts "Please enter the anime you want to search"
+                title = gets.chomp
+                anime_found = Anime.find_by(title: title)
+                if anime_found
+                    puts anime_found
+                    #elaborate 
+                    search_choice = prompt.select("What would you like to do with this anime", "Add to a list", "Search for another", "Exit")
+                    if search_choice == "Add to a list"
+                        multiple_choices_search = [List.first.name, List.second.name]
+                        multiple_search_return = prompt.multi_select("Which list(s) would you like to add to", multiple_choices_search)
+                        if multiple_search_return == [List.first.name]
+                            if List.first.animes.exists?(anime_found)
+                                puts "This Anime is already on #{List.first.name}"
+                            else
+                                List.first.animes << anime_found
+                                puts ""
+                                puts "DONE! We've added #{anime_found.title} to #{List.first.name}!"
+                            end
+                        end
+
+                        if multiple_search_return == [List.second.name]
+                            if List.second.animes.exists?(anime_found)
+                                puts "This Anime is already on #{List.second.name}"
+                            else
+                                List.second.animes << anime_found
+                                puts ""
+                                puts "DONE! We've added #{anime_found.title} to #{List.second.name}!"
+                            end                            
+                        end
+
+                        if multiple_search_return == [List.first.name, List.second.name]
+                            #NOT DONE!
+                            List.first.animes << anime_found
+                            List.second.animes << anime_found
+                            puts ""
+                            puts "DONE! We've added #{anime_found.title} to both lists!"
+                        end
+                        search_status = "end"
+                    end
+
+                    if search_choice == "Search for another"
+                    end
+
+                    if search_choice == "Exit"
+                        search_status = "end"
+                    end
+                else
+                    puts "Sorry we couldn't find that Anime :("
+                end
+            end
+        end
+ 
         if first_menu == "View/Edit My Lists"
             inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
             if inside_view_edit == "View your lists"
@@ -251,7 +290,6 @@ while menu_loop == "go"
                 puts ""
             end  
         end
-        ##END OF EDITS 
 
         if first_menu == "Exit"
             puts ""
