@@ -5,9 +5,9 @@ prompt = TTY::Prompt.new
 
 #WELCOME MESSAGE
 puts ""
-puts ""
 puts "Welcome to My Anime Lists!"
 puts ""
+sleep(2)
 puts "A place to find new Anime and organize your favorites."
 puts ""
     sleep(2)
@@ -20,7 +20,7 @@ puts ""
 # 2. edit my lists 
 # 3. end
 
-first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "Exit")
+first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit My Lists", "Exit")
 
     if first_menu == "Find a New Anime"
         round_counter = 0
@@ -85,7 +85,8 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
                     puts ""
                     puts "Here are your final lists. Happy watching!"
                     puts ""
-                    puts List.first.name
+                    sleep(2)
+                    puts "#{List.first.name}:"
                     puts ""
                     anime_title_array = 
                     List.first.animes.map do |anime|       
@@ -93,12 +94,14 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
                     end
                     puts anime_title_array
                     puts ""
-                    puts List.second.name
+                    puts "#{List.second.name}:"
                     puts ""
+                    
                     anime_title_array_2 = 
                     List.second.animes.map do |anime|       
                         anime.title
                     end
+
                     puts anime_title_array_2
                     puts ""
 
@@ -108,9 +111,9 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
             end
         
     end
-    
+
     ### EDITS BY CAROLINE 
-    if first_menu == "View/Edit my Lists"
+    if first_menu == "View/Edit My Lists"
         inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
         if inside_view_edit == "View your lists"
                 #displays a menu to choose list 1 or list 2
@@ -140,6 +143,7 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
         end 
 
         if inside_view_edit == "Remove an Anime"
+            list = List.first.animes
             #prompt which list would you like to remove from 
             remove_from_list = prompt.select("Which list would you like to remove from?", List.first.name, List.second.name)
             if remove_from_list == List.first.name
@@ -150,7 +154,7 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
                 puts ""
                 puts "#{List.first.name}:"
                 puts anime_list_titles_1
-                puts "" 
+                puts ""
             end
             if remove_from_list == List.second.name
                 #code to display the animes on list 2 
@@ -161,12 +165,30 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
                 puts "#{List.second.name}:"
                 puts anime_list_titles_2
                 puts ""
+                list = List.second.animes
             end 
 
+            #NEEDS A LOOP ? we need to be able for them to not enter the right name a few times
+
             puts "Please type the name of the Anime you would like to remove:"
+            puts ""
             title_to_remove = gets.chomp.strip
-            puts "We have removed #{title_to_remove} from the list."
-            #able to go back to the main menu! 
+            #iterates over the list that the user has chosen to match the title with the input 
+            #and then to destroy the instance from the list
+                list.each do |anime|
+                    if anime.title == title_to_remove
+                        anime.destroy
+                        puts ""
+                        puts "We have removed #{title_to_remove} from your list."
+                        puts ""
+                    else 
+                        puts ""
+                        puts "Sorry, we cannot find that Anime in the list."
+                        puts ""
+                    end
+                end
+
+            #lets get this able to go back to the main menu!  
         end
 
         if inside_view_edit == "Update list name"
