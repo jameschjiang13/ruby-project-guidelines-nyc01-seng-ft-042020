@@ -1,15 +1,14 @@
 require_relative '../config/environment'
 require 'pry'
 require "tty-prompt"
-prompt = TTY::Prompt.new
-#maybe do @@prompt to create 
+prompt = TTY::Prompt.new 
 
 #WELCOME MESSAGE
 puts ""
 puts ""
 puts "Welcome to My Anime Lists!"
 puts ""
-puts "A place to browse new Anime and organize your favorite titles."
+puts "A place to find new Anime and organize your favorites."
 puts ""
     sleep(2)
 puts "Lets get started!"
@@ -22,7 +21,7 @@ puts ""
 # 3. end
 
 first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "Exit")
-    #find a new anime option
+
     if first_menu == "Find a New Anime"
         round_counter = 0
         current_anime = sorted_anime[0]
@@ -109,19 +108,71 @@ first_menu = prompt.select("Menu:", "Find a New Anime", "View/Edit my Lists", "E
             end
         
     end
-
+    
     ### EDITS BY CAROLINE 
     if first_menu == "View/Edit my Lists"
-        #displays a menu to choose list 1 or list 2
-        puts ""
-        #uses List.first.name etc. to account for the fact that they may change the list name
-        list_prompt = prompt.select("Choose a list to edit:", List.first.name, List.second.name)
-        if list_prompt == List.first.name
-            #put code here for editing the first of the List table 
-        end
-        if list_prompt == List.second.name
-            #put code here for editing the second of the List table
+        inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
+        if inside_view_edit == "View your lists"
+                #displays a menu to choose list 1 or list 2
+            puts ""
+            #uses List.first.name etc. to account for the fact that they may change the list name
+            list_prompt = prompt.select("Choose the list you would like to view:", List.first.name, List.second.name)
+            if list_prompt == List.first.name
+                #code to display the animes on list 1
+                anime_list_titles_1 = List.first.animes.map do |anime|
+                    "\n #{anime.title}" 
+                end 
+                puts ""
+                puts "#{List.first.name}:"
+                puts anime_list_titles_1
+                puts "" 
+            end
+            if list_prompt == List.second.name
+                #code to display the animes on list 2 
+                anime_list_titles_2 = List.second.animes.map do |anime|
+                    "\n #{anime.title}"
+                end 
+                puts ""
+                puts "#{List.second.name}:"
+                puts anime_list_titles_2
+                puts ""
+            end 
         end 
+
+        if inside_view_edit == "Remove an Anime"
+            #prompt which list would you like to remove from 
+            remove_from_list = prompt.select("Which list would you like to remove from?", List.first.name, List.second.name)
+            if remove_from_list == List.first.name
+                #code to display the animes on list 1
+                anime_list_titles_1 = List.first.animes.map do |anime|
+                    "\n #{anime.title}" 
+                end 
+                puts ""
+                puts "#{List.first.name}:"
+                puts anime_list_titles_1
+                puts "" 
+            end
+            if remove_from_list == List.second.name
+                #code to display the animes on list 2 
+                anime_list_titles_2 = List.second.animes.map do |anime|
+                    "\n #{anime.title}"
+                end 
+                puts ""
+                puts "#{List.second.name}:"
+                puts anime_list_titles_2
+                puts ""
+            end 
+
+            puts "Please type the name of the Anime you would like to remove:"
+            title_to_remove = gets.chomp.strip
+            puts "We have removed #{title_to_remove} from the list."
+            #able to go back to the main menu! 
+        end
+
+        if inside_view_edit == "Update list name"
+
+        end
+        
     end
     ##END OF EDITS 
 
