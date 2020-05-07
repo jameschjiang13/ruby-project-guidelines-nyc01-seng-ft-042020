@@ -123,7 +123,10 @@ while menu_loop == "go"
                 title = gets.chomp
                 anime_found = Anime.find_by(title: title)
                 if anime_found
-                    puts anime_found
+                    puts "title: #{anime_found.title}"
+                    puts "rating: #{anime_found.rating}"
+                    puts "producer: #{anime_found.producer.name}"
+                    puts "synopsis: #{anime_found.synopsis}"
                     #elaborate 
                     search_choice = prompt.select("What would you like to do with this anime", "Add to a list", "Search for another", "Exit")
                     if search_choice == "Add to a list"
@@ -151,10 +154,32 @@ while menu_loop == "go"
 
                         if multiple_search_return == [List.first.name, List.second.name]
                             #NOT DONE!
-                            List.first.animes << anime_found
-                            List.second.animes << anime_found
-                            puts ""
-                            puts "DONE! We've added #{anime_found.title} to both lists!"
+                            if List.first.animes.exists?(anime_found)
+                                if List.second.animes.exists?(anime_found)
+                                    puts "This Anime is already on #{List.second.name}"
+                                else
+                                    List.second.animes << anime_found
+                                    puts ""
+                                    puts "DONE! We've added #{anime_found.title} to #{List.second.name}!"
+                                end
+                                puts "This Anime is already on #{List.first.name}"
+                            else
+                                if List.second.animes.exists?(anime_found)
+                                    puts "This Anime is already on #{List.second.name}"
+                                else
+                                    List.second.animes << anime_found
+                                    puts ""
+                                    puts "DONE! We've added #{anime_found.title} to #{List.second.name}!"
+                                end
+                                List.first.animes << anime_found
+                                puts ""
+                                puts "DONE! We've added #{anime_found.title} to #{List.first.name}!"
+                            end
+
+                        #     List.first.animes << anime_found
+                        #     List.second.animes << anime_found
+                        #     puts ""
+                        #     puts "DONE! We've added #{anime_found.title} to both lists!"
                         end
                         search_status = "end"
                     end
