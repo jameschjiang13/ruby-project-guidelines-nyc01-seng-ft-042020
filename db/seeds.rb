@@ -46,3 +46,4 @@ end
 
 List.create(name: "My Watch List")
 
+List.create(name: "My Collection")
