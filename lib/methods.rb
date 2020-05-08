@@ -1,7 +1,7 @@
 require_relative '../config/environment'
 require "tty-prompt"
 prompt = TTY::Prompt.new
-
+require 'pry'
 
 def welcome_message
     puts ""
@@ -55,9 +55,9 @@ def browse_anime_menu
         puts ""
         puts "Here are your final lists. Happy watching!"
         puts ""
-        display_list(first)
-        display_list(second) 
-        # main_menu
+        display_first_list
+        display_second_list 
+        main_menu
     end
 end
 
@@ -102,8 +102,9 @@ def add_to_list
         puts "DONE! We've added #{current_anime.title} to #{List.second.name}!\n\nHere is another Anime"
     end
     if multiple_return == [List.first.name, List.second.name]
-        List.first.animes << current_anime
-        List.second.animes << current_anime
+        actual_current_anime = current_anime
+        List.first.animes << actual_current_anime
+        List.second.animes << actual_current_anime
         puts ""
         puts "DONE! We've added #{current_anime.title} to both lists!\n\nHere is another Anime"
     end
@@ -111,20 +112,34 @@ def add_to_list
     browse_anime_menu
 end
 
-def display_list(list_index)
+def display_first_list
     #display_list(first)
     sleep(2)
-    puts "#{List.list_index.name}:"
+    puts "#{List.first.name}:"
     puts ""
     anime_title_array = 
-    List.list_index.animes.map do |anime|       
+    List.first.animes.map do |anime|       
+        "\n #{anime.title}"
+    end
+    puts anime_title_array
+end 
+
+def display_second_list
+    #display_list(first)
+    sleep(2)
+    puts "#{List.second.name}:"
+    puts ""
+    anime_title_array = 
+    List.second.animes.map do |anime|       
         "\n #{anime.title}"
     end
     puts anime_title_array
 end 
 
 
-welcome_message
+
+
+# welcome_message
 
 main_menu
 
