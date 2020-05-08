@@ -3,118 +3,79 @@ require 'pry'
 require "tty-prompt"
 prompt = TTY::Prompt.new 
 
-#WELCOME MESSAGE
-puts ""
-puts "Welcome to My Anime Lists!"
-puts ""
-puts "*******************************"
-puts ""
-sleep(1)
-puts "A place to find new Anime and organize your favorites."
-puts ""
-    sleep(1)
-puts "Lets get started!"
-    sleep(1)
-puts ""
+# welcome_message
 
-# #FIRST MENU:
-# 1. find a new anime 
-# 2. edit my lists 
-# 3. end
-menu_loop = "go"
-while menu_loop == "go"
-    first_menu = prompt.select("Menu:", "Browse Top Anime", "Search by Title", "View/Edit My Lists", "Exit")
+# menu_loop = "go"
+# while menu_loop == "go"
+#     first_menu = prompt.select("Menu:", "Browse Top Anime", "Search by Title", "View/Edit My Lists", "Exit")
 
-        if first_menu == "Browse Top Anime"
-            status = 1
-                while status == 1 do
-                    current_anime = (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
-                    puts ""
-                    puts "Tile: #{current_anime.title}\nRating: #{current_anime.rating}\nSynopsis: #{current_anime.synopsis}"
-                    puts ""
-                    choice = prompt.select("Choose an option", "Add to a list", "Keep browsing", "Done! Show me My Lists") 
-                    if choice == "Add to a list"
-                        multiple_choices = [List.first.name, List.second.name]
-                        multiple_return = prompt.multi_select("Which list(s) would you like to add to", multiple_choices)
-                        #prompt multiple 
-                        if multiple_return == [List.first.name]
-                            List.first.animes << current_anime
-                            puts ""
-                            puts "DONE! We've added #{current_anime.title} to #{List.first.name}!\n\nHere is another Anime"
-                        end
+        # if first_menu == "Browse Top Anime"
+        #     status = 1
+        #         while status == 1 do
+                    # current_anime = (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
+                    # puts ""
+                    # puts "Tile: #{current_anime.title}\nRating: #{current_anime.rating}\nSynopsis: #{current_anime.synopsis}"
+                    # puts ""
+                    # choice = prompt.select("Choose an option", "Add to a list", "Keep browsing", "Done! Show me My Lists") 
+                    # if choice == "Add to a list"
+                        # multiple_choices = [List.first.name, List.second.name]
+                        # multiple_return = prompt.multi_select("Which list(s) would you like to add to", multiple_choices)
+                        # #prompt multiple 
+                        # if multiple_return == [List.first.name]
+                        #     List.first.animes << current_anime
+                        #     puts ""
+                        #     puts "DONE! We've added #{current_anime.title} to #{List.first.name}!\n\nHere is another Anime"
+                        # end
 
-                        if multiple_return == [List.second.name]
-                            List.second.animes << current_anime
-                            puts ""
-                            puts "DONE! We've added #{current_anime.title} to #{List.second.name}!\n\nHere is another Anime"
-                        end
+                        # if multiple_return == [List.second.name]
+                        #     List.second.animes << current_anime
+                        #     puts ""
+                        #     puts "DONE! We've added #{current_anime.title} to #{List.second.name}!\n\nHere is another Anime"
+                        # end
 
-                        if multiple_return == [List.first.name, List.second.name]
-                            List.first.animes << current_anime
-                            List.first.animes << current_anime
-                            puts ""
-                            puts "DONE! We've added #{current_anime.title} to both lists!\n\nHere is another Anime"
-                        end
-                    end
-                    # if choice == "Add to #{List.second.name}, and find me something similar"
-                    #     puts ""
-                    #     # yes_or_no = prompt.yes?("Would you like to add this to #{List.second.name} ?")
-                    #     # if yes_or_no
-                    #         # List.second.animes << current_anime
-                    #         # puts ""
-                    #         # puts "Awesome! We've added #{current_anime.title} to your collection."
-                    #     # end 
-                    #     already_displayed_array = []
-                    #     already_displayed_array << current_anime
-                    #     current_producer = current_anime.producer
-                    #     filtered_anime_data = current_producer.animes - already_displayed_array
-                    #     round_counter += 1
-                    #     if filtered_anime_data == []
-                    #         #just in case there is no more animes from this producer
-                    #         current_anime = sorted_anime[round_counter]
-                    #     else
-                    #         current_anime = filtered_anime_data.first
-                    #     end
-                    #     sleep (2)
-                    #     puts ""
-                    #     puts "Here is a similar Anime!"
-                    #     #how to loop up change the current_anime
+                        # if multiple_return == [List.first.name, List.second.name]
+                        #     List.first.animes << current_anime
+                        #     List.first.animes << current_anime
+                        #     puts ""
+                        #     puts "DONE! We've added #{current_anime.title} to both lists!\n\nHere is another Anime"
+                        # end
                     # end
-                    if choice == "Keep browsing"
-                        puts ""
-                        puts "Good thing we've got hundreds of other Anime, here is another!"
-                        List.third.animes << current_anime
-                    end
-                    if choice == "Done! Show me My Lists"
-                        puts ""
-                        puts "Here are your final lists. Happy watching!"
-                        puts ""
-                        sleep(2)
-                        puts "#{List.first.name}:"
-                        puts ""
-                        anime_title_array = 
-                        List.first.animes.map do |anime|       
-                            "\n #{anime.title}"
-                        end
-                        puts anime_title_array
-                        puts ""
-                        puts "#{List.second.name}:"
-                        puts ""
+                    
+                    # if choice == "Keep browsing"
+                    #     # puts ""
+                    #     # puts "Good thing we've got hundreds of other Anime, here is another!"
+                    #     # List.third.animes << current_anime
+                    # end
+                    # if choice == "Done! Show me My Lists"
+                        # puts ""
+                        # puts "Here are your final lists. Happy watching!"
+                        # puts ""
+                        # sleep(2)
+                        # puts "#{List.first.name}:"
+                        # puts ""
+                        # anime_title_array = 
+                        # List.first.animes.map do |anime|       
+                        #     "\n #{anime.title}"
+                        # end
+                        # puts anime_title_array
+                        # puts ""
+                        # puts "#{List.second.name}:"
+                        # puts ""
                         
-                        anime_title_array_2 = 
-                        List.second.animes.map do |anime|       
-                            "\n #{anime.title}"
-                        end
+                        # anime_title_array_2 = 
+                        # List.second.animes.map do |anime|       
+                        #     "\n #{anime.title}"
+                        # end
 
-                        puts anime_title_array_2
-                        puts ""
+                        # puts anime_title_array_2
+                        # puts ""
 
-                        status = 2
+                        # status = 2
                         # how can we get this back to first menu instead of exiting app
-                    end 
-                end
+                #     end 
+                # end
             
-        end
+        # end
 
         if first_menu == "Search by Title"
             search_status = "go"
@@ -319,12 +280,12 @@ while menu_loop == "go"
             end  
         end
 
-        if first_menu == "Exit"
-            puts ""
-            puts "Thank you for using My Anime Lists. NOW GO WATCH SOME ANIME!"
-            puts ""
-            menu_loop = "end"
-        end
+        # if first_menu == "Exit"
+        #     puts ""
+        #     puts "Thank you for using My Anime Lists. NOW GO WATCH SOME ANIME!"
+        #     puts ""
+        #     menu_loop = "end"
+        # end
 end
     
 
