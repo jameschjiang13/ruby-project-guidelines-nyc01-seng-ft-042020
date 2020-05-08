@@ -160,133 +160,133 @@ prompt = TTY::Prompt.new
             end
         end
  
-        if first_menu == "View/Edit My Lists"
-            inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
-            if inside_view_edit == "View your lists"
-                    #displays a menu to choose list 1 or list 2
-                puts ""
-                #uses List.first.name etc. to account for the fact that they may change the list name
-                list_prompt = prompt.select("Choose the list you would like to view:", List.first.name, List.second.name)
-                if list_prompt == List.first.name
-                    #code to display the animes on list 1
-                    anime_list_titles_1 = List.first.animes.map do |anime|
-                        "\n #{anime.title}" 
-                    end 
-                    puts ""
-                    puts "#{List.first.name}:"
-                    puts anime_list_titles_1
-                    puts "" 
-                end
-                if list_prompt == List.second.name
-                    #code to display the animes on list 2 
-                    anime_list_titles_2 = List.second.animes.map do |anime|
-                        "\n #{anime.title}"
-                    end 
-                    puts ""
-                    puts "#{List.second.name}:"
-                    puts anime_list_titles_2
-                    puts ""
-                end 
-            end 
+#         if first_menu == "View/Edit My Lists"
+#             inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
+#             if inside_view_edit == "View your lists"
+#                     #displays a menu to choose list 1 or list 2
+#                 puts ""
+#                 #uses List.first.name etc. to account for the fact that they may change the list name
+#                 list_prompt = prompt.select("Choose the list you would like to view:", List.first.name, List.second.name)
+#                 if list_prompt == List.first.name
+#                     #code to display the animes on list 1
+#                     anime_list_titles_1 = List.first.animes.map do |anime|
+#                         "\n #{anime.title}" 
+#                     end 
+#                     puts ""
+#                     puts "#{List.first.name}:"
+#                     puts anime_list_titles_1
+#                     puts "" 
+#                 end
+#                 if list_prompt == List.second.name
+#                     #code to display the animes on list 2 
+#                     anime_list_titles_2 = List.second.animes.map do |anime|
+#                         "\n #{anime.title}"
+#                     end 
+#                     puts ""
+#                     puts "#{List.second.name}:"
+#                     puts anime_list_titles_2
+#                     puts ""
+#                 end 
+#             end 
 
-            if inside_view_edit == "Remove an Anime"
-                list = List.first.animes
-                #prompt which list would you like to remove from 
-                remove_from_list = prompt.select("Which list would you like to remove from?", List.first.name, List.second.name)
-                if remove_from_list == List.first.name
-                    #code to display the animes on list 1
-                    anime_list_titles_1 = List.first.animes.map do |anime|
-                        "\n #{anime.title}" 
-                    end 
-                    puts ""
-                    puts "#{List.first.name}:"
-                    puts anime_list_titles_1
-                    puts ""
-                end
-                if remove_from_list == List.second.name
-                    #code to display the animes on list 2 
-                    anime_list_titles_2 = List.second.animes.map do |anime|
-                        "\n #{anime.title}"
-                    end 
-                    puts ""
-                    puts "#{List.second.name}:"
-                    puts anime_list_titles_2
-                    puts ""
-                    list = List.second.animes
-                end 
+#             if inside_view_edit == "Remove an Anime"
+#                 list = List.first.animes
+#                 #prompt which list would you like to remove from 
+#                 remove_from_list = prompt.select("Which list would you like to remove from?", List.first.name, List.second.name)
+#                 if remove_from_list == List.first.name
+#                     #code to display the animes on list 1
+#                     anime_list_titles_1 = List.first.animes.map do |anime|
+#                         "\n #{anime.title}" 
+#                     end 
+#                     puts ""
+#                     puts "#{List.first.name}:"
+#                     puts anime_list_titles_1
+#                     puts ""
+#                 end
+#                 if remove_from_list == List.second.name
+#                     #code to display the animes on list 2 
+#                     anime_list_titles_2 = List.second.animes.map do |anime|
+#                         "\n #{anime.title}"
+#                     end 
+#                     puts ""
+#                     puts "#{List.second.name}:"
+#                     puts anime_list_titles_2
+#                     puts ""
+#                     list = List.second.animes
+#                 end 
 
-                #NEEDS A LOOP ? we need to be able for them to not enter the right name a few times
-                puts "Please type the name of the Anime you would like to remove:"
-                puts ""
-                remove_loop = "go"
-                while remove_loop == "go"
-                    title_to_remove = gets.chomp.strip
-                    #iterates over the list that the user has chosen to match the title with the input 
-                    #and then to destroy the instance from the list
-                    if list.exists?(title: title_to_remove)
-                        list.each do |anime|
-                            if anime.title == title_to_remove
-                                remove_loop = "end"
-                                list.delete(anime)
-                                puts ""
-                                puts "We have removed #{title_to_remove} from your list."
-                                puts ""
-                            end 
-                        end
-                    else 
-                            puts ""
-                            puts "Sorry, we cannot find that Anime. Please try again:"
-                            puts ""
-                    end
-                end
+#                 #NEEDS A LOOP ? we need to be able for them to not enter the right name a few times
+#                 puts "Please type the name of the Anime you would like to remove:"
+#                 puts ""
+#                 remove_loop = "go"
+#                 while remove_loop == "go"
+#                     title_to_remove = gets.chomp.strip
+#                     #iterates over the list that the user has chosen to match the title with the input 
+#                     #and then to destroy the instance from the list
+#                     if list.exists?(title: title_to_remove)
+#                         list.each do |anime|
+#                             if anime.title == title_to_remove
+#                                 remove_loop = "end"
+#                                 list.delete(anime)
+#                                 puts ""
+#                                 puts "We have removed #{title_to_remove} from your list."
+#                                 puts ""
+#                             end 
+#                         end
+#                     else 
+#                             puts ""
+#                             puts "Sorry, we cannot find that Anime. Please try again:"
+#                             puts ""
+#                     end
+#                 end
 
-                #lets get this able to go back to the main menu!  
-            end
+#                 #lets get this able to go back to the main menu!  
+#             end
 
-            #thursday morning edits
-            if inside_view_edit == "Update list name"
-                list_choice = List.first
-                edit_name = prompt.select("Which list name would you like to change?", List.first.name, List.second.name)
-                if edit_name == List.first.name
-                    #code to display the animes on list 1
-                    anime_list_titles_1 = List.first.animes.map do |anime|
-                        "\n #{anime.title}" 
-                    end 
-                    puts ""
-                    puts "#{List.first.name}:"
-                    puts anime_list_titles_1
-                    puts ""
-                end
-                if edit_name == List.second.name
-                    #code to display the animes on list 2 
-                    anime_list_titles_2 = List.second.animes.map do |anime|
-                        "\n #{anime.title}"
-                    end 
-                    puts ""
-                    puts "#{List.second.name}:"
-                    puts anime_list_titles_2
-                    puts ""
-                    list_choice = List.second
-                end 
+#             #thursday morning edits
+#             if inside_view_edit == "Update list name"
+#                 list_choice = List.first
+#                 edit_name = prompt.select("Which list name would you like to change?", List.first.name, List.second.name)
+#                 if edit_name == List.first.name
+#                     #code to display the animes on list 1
+#                     anime_list_titles_1 = List.first.animes.map do |anime|
+#                         "\n #{anime.title}" 
+#                     end 
+#                     puts ""
+#                     puts "#{List.first.name}:"
+#                     puts anime_list_titles_1
+#                     puts ""
+#                 end
+#                 if edit_name == List.second.name
+#                     #code to display the animes on list 2 
+#                     anime_list_titles_2 = List.second.animes.map do |anime|
+#                         "\n #{anime.title}"
+#                     end 
+#                     puts ""
+#                     puts "#{List.second.name}:"
+#                     puts anime_list_titles_2
+#                     puts ""
+#                     list_choice = List.second
+#                 end 
                 
-                puts "Please type the new name of your list:"
-                puts ""
-                name_change = gets.chomp.strip
-                #assigning the list chosen name = name that they have typed 
-                list_choice.update(name: name_change)
-                puts ""
-                puts "Great! We have changed the name of your list to: #{name_change}"
-                puts ""
-            end  
-        end
+#                 puts "Please type the new name of your list:"
+#                 puts ""
+#                 name_change = gets.chomp.strip
+#                 #assigning the list chosen name = name that they have typed 
+#                 list_choice.update(name: name_change)
+#                 puts ""
+#                 puts "Great! We have changed the name of your list to: #{name_change}"
+#                 puts ""
+#             end  
+#         end
 
-        # if first_menu == "Exit"
-        #     puts ""
-        #     puts "Thank you for using My Anime Lists. NOW GO WATCH SOME ANIME!"
-        #     puts ""
-        #     menu_loop = "end"
-        # end
-end
+#         # if first_menu == "Exit"
+#         #     puts ""
+#         #     puts "Thank you for using My Anime Lists. NOW GO WATCH SOME ANIME!"
+#         #     puts ""
+#         #     menu_loop = "end"
+#         # end
+# end
     
 
 

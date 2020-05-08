@@ -32,7 +32,7 @@ def main_menu
         search_by_title
     end
     if first_menu == "View/Edit My Lists"
-
+        view_edit
     end
     if first_menu == "Exit"
         exit_app
@@ -56,7 +56,8 @@ def browse_anime_menu
         puts "Here are your final lists. Happy watching!"
         puts ""
         display_first_list
-        display_second_list 
+        display_second_list
+        puts ""
         main_menu
     end
 end
@@ -74,17 +75,96 @@ def current_anime
     (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
 end 
 
-def search_by_title
-
+def view_edit
+    prompt = TTY::Prompt.new
+    inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
+    if inside_view_edit == "View your lists"
+        list_prompt = prompt.select("Choose the list you would like to view:", List.first.name, List.second.name)
+        if list_prompt == List.first.name
+            display_first_list
+            main_menu
+        end
+        if list_prompt == List.second.name
+            display_second_list
+            main_menu
+        end
+    end
+    if inside_view_edit == "Remove an Anime"
+        remove_anime
+    end
+    if inside_view_edit == "Update list name"
+        update_list_name 
+    end
 end 
 
-def view_edit_lists
+def remove_anime
+    prompt = TTY::Prompt.new
+    remove_from_list = prompt.select("Which list would you like to remove from?", List.first.name, List.second.name)
+    if remove_from_list == List.first.name
+       display_first_list
+       gets_remove(List.first.animes)
+    end
+    if remove_from_list == List.second.name
+        display_second_list 
+        gets_remove(List.second.animes)
+    end 
+    #back to a menu 
+end
+
+def gets_remove(list)
+    puts "Please type the name of the Anime you would like to remove:"
+    puts ""
+    title_to_remove = gets.chomp.strip
+    if list.exists?(title: title_to_remove)
+        list.each do |anime|
+            if anime.title == title_to_remove
+                list.delete(anime)
+                puts ""
+                puts "We have removed #{title_to_remove} from your list."
+                puts ""
+                #MAIN MENU???
+            end
+        end
+    else
+        sorry_try_again(list)
+    end
+end 
+
+def sorry_try_again(list)
+    puts ""
+    puts "Sorry, we cannot find that Anime. Please try again."
+    puts ""
+    gets_remove(list)
+end
+
+def update_list_name
+    prompt = TTY::Prompt.new
+    edit_name = prompt.select("Which list name would you like to change?", List.first.name, List.second.name)
+    if edit_name == List.first.name
+        puts "Here is the name of your current list: #{List.first.name}"
+        gets_update(List.first)
+    end
+    if edit_name == List.second.name
+        puts "Here is the name of your current list: #{List.second.name}"
+        gets_update(List.second)
+    end
+end
+
+def gets_update(list)
+    puts "Please type the new name of your list:"
+    puts ""
+    name_change = gets.chomp.strip
+    list.update(name: name_change)
+    puts ""
+    puts "Great! We have changed the name of your list to: #{name_change}"
+    puts ""
+    main_menu
 end 
 
 def exit_app
     puts ""
     puts "Thank you for using My Anime Lists. NOW GO WATCH SOME ANIME!"
-    puts "" 
+    puts ""
 end 
 
 def add_to_list
@@ -122,6 +202,7 @@ def display_first_list
         "\n #{anime.title}"
     end
     puts anime_title_array
+    puts ""
 end 
 
 def display_second_list
@@ -134,12 +215,29 @@ def display_second_list
         "\n #{anime.title}"
     end
     puts anime_title_array
+    puts ""
 end 
 
+def search_by_title
+    prompt = TTY::Prompt.new
+    puts ""
+    puts "Please enter the anime you want to search"
+    puts ""
+    title = gets.chomp.strip
+    anime_found = Anime.find_by(title: title)
+    if anime_found
+        puts "title: #{anime_found.title}"
+        puts "rating: #{anime_found.rating}"
+        puts "producer: #{anime_found.producer.name}"
+        puts "synopsis: #{anime_found.synopsis}"
+        search_choice = prompt.select("What would you like to do with this anime", "Add to a list", "Search for another", "Exit")
+            if search_choice == "Add to a list"
+                
+
+end
 
 
-
-# welcome_message
+welcome_message
 
 main_menu
 
