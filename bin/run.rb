@@ -12,9 +12,9 @@ puts ""
 sleep(1)
 puts "A place to find new Anime and organize your favorites."
 puts ""
-    sleep(2)
+    sleep(1)
 puts "Lets get started!"
-    sleep(2)
+    sleep(1)
 puts ""
 
 # #FIRST MENU:
@@ -94,7 +94,7 @@ while menu_loop == "go"
                         puts ""
                         anime_title_array = 
                         List.first.animes.map do |anime|       
-                            anime.title
+                            "\n #{anime.title}"
                         end
                         puts anime_title_array
                         puts ""
@@ -103,7 +103,7 @@ while menu_loop == "go"
                         
                         anime_title_array_2 = 
                         List.second.animes.map do |anime|       
-                            anime.title
+                            "\n #{anime.title}"
                         end
 
                         puts anime_title_array_2
@@ -119,7 +119,9 @@ while menu_loop == "go"
         if first_menu == "Search by Title"
             search_status = "go"
             while search_status == "go" do
+                puts ""
                 puts "Please enter the anime you want to search"
+                puts ""
                 title = gets.chomp
                 anime_found = Anime.find_by(title: title)
                 if anime_found
@@ -191,6 +193,7 @@ while menu_loop == "go"
                         search_status = "end"
                     end
                 else
+                    puts "" 
                     puts "Sorry we couldn't find that Anime :("
                 end
             end
