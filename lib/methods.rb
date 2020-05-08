@@ -24,13 +24,13 @@ end
 
 def main_menu
     prompt = TTY::Prompt.new 
-    first_menu = prompt.select("Menu:", "Browse Top Anime", "Search by Title", "View/Edit My Lists", "Exit")
+    first_menu = prompt.select("Menu:", "Browse Top Anime", "View/Edit My Lists", "Exit")
     if first_menu == "Browse Top Anime"
         browse_top_anime
     end
-    if first_menu == "Search by Title"
-        search_by_title
-    end
+    # if first_menu == "Search by Title"
+    #     search_by_title
+    # end
     if first_menu == "View/Edit My Lists"
         view_edit
     end
@@ -46,15 +46,16 @@ def browse_anime_menu
         add_to_list
     end 
     if choice == "Keep browsing"
+        system("clear")
         puts ""
         puts "Good thing we've got hundreds of other Anime, here is another!"
         List.third.animes << current_anime
         browse_top_anime
     end
     if choice == "Done! Show me My Lists"
+        system("clear")
         puts ""
         puts "Here are your final lists. Happy watching!"
-        puts ""
         display_first_list
         display_second_list
         puts ""
@@ -76,15 +77,17 @@ end
 
 def view_edit
     prompt = TTY::Prompt.new
-    inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name")
+    inside_view_edit = prompt.select("Would you like to:", "View your lists", "Remove an Anime", "Update list name", "Exit")
     if inside_view_edit == "View your lists"
         list_prompt = prompt.select("Choose the list you would like to view:", List.first.name, List.second.name)
         if list_prompt == List.first.name
             display_first_list
+            puts ""
             main_menu
         end
         if list_prompt == List.second.name
             display_second_list
+            puts ""
             main_menu
         end
     end
@@ -93,6 +96,9 @@ def view_edit
     end
     if inside_view_edit == "Update list name"
         update_list_name 
+    end
+    if inside_view_edit == "Exit"
+        main_menu
     end
 end 
 
@@ -111,6 +117,7 @@ def remove_anime
 end
 
 def gets_remove(list)
+    puts ""
     puts "Please type the name of the Anime you would like to remove:"
     puts ""
     title_to_remove = gets.chomp.strip
@@ -140,11 +147,17 @@ def update_list_name
     prompt = TTY::Prompt.new
     edit_name = prompt.select("Which list name would you like to change?", List.first.name, List.second.name)
     if edit_name == List.first.name
+        system("clear")
+        puts ""
         puts "Here is the name of your current list: #{List.first.name}"
+        puts ""
         gets_update(List.first)
     end
     if edit_name == List.second.name
+        system("clear")
+        puts ""
         puts "Here is the name of your current list: #{List.second.name}"
+        puts ""
         gets_update(List.second)
     end
 end
@@ -161,8 +174,12 @@ def gets_update(list)
 end 
 
 def exit_app
+    system("clear")
+    puts "****************************************************************"
     puts ""
     puts "Thank you for using My Anime Lists. NOW GO WATCH SOME ANIME!"
+    puts ""
+    puts "****************************************************************"
     puts ""
 end 
 
@@ -173,48 +190,51 @@ def add_to_list
     if multiple_return == [List.first.name]
         List.first.animes << current_anime
         puts ""
-        puts "DONE! We've added #{current_anime.title} to #{List.first.name}!\n\nHere is another Anime"
+        system("clear")
+        puts "DONE! We've added #{current_anime.title} to #{List.first.name}!\n\nHere is another Anime:"
     end
     if multiple_return == [List.second.name]
         List.second.animes << current_anime
         puts ""
-        puts "DONE! We've added #{current_anime.title} to #{List.second.name}!\n\nHere is another Anime"
+        system("clear")
+        puts "DONE! We've added #{current_anime.title} to #{List.second.name}!\n\nHere is another Anime:"
     end
     if multiple_return == [List.first.name, List.second.name]
         actual_current_anime = current_anime
         List.first.animes << actual_current_anime
         List.second.animes << actual_current_anime
         puts ""
-        puts "DONE! We've added #{actual_current_anime.title} to both lists!\n\nHere is another Anime"
+        system("clear")
+        puts "DONE! We've added #{actual_current_anime.title} to both lists!\n\nHere is another Anime:"
     end
     browse_top_anime
-    # browse_anime_menu
 end
 
 def display_first_list
-    #display_list(first)
-    sleep(2)
+    puts ""
     puts "#{List.first.name}:"
     puts ""
+    puts "*******************************"
+    sleep(1)
     anime_title_array = 
     List.first.animes.map do |anime|       
         "\n #{anime.title}"
     end
     puts anime_title_array
-    puts ""
+    sleep(1)
 end 
 
 def display_second_list
-    #display_list(first)
-    sleep(2)
+    puts ""
     puts "#{List.second.name}:"
     puts ""
+    puts "*******************************"
+    sleep(1)
     anime_title_array = 
     List.second.animes.map do |anime|       
         "\n #{anime.title}"
     end
     puts anime_title_array
-    puts ""
 end 
 
 def search_by_title
