@@ -221,7 +221,7 @@ end
 def search_by_title
     prompt = TTY::Prompt.new
     puts ""
-    puts "Please enter the anime you want to search"
+    puts "Please enter the anime you want to search:"
     puts ""
     title = gets.chomp.strip
     anime_found = Anime.find_by(title: title)
@@ -232,8 +232,75 @@ def search_by_title
         puts "synopsis: #{anime_found.synopsis}"
         search_choice = prompt.select("What would you like to do with this anime", "Add to a list", "Search for another", "Exit")
             if search_choice == "Add to a list"
-                
+                multiple_choices_search = [List.first.name, List.second.name]
+                multiple_search_return = prompt.multi_select("Which list(s) would you like to add to", multiple_choices_search)
+                if multiple_search_return == [List.first.name]
+                    if List.first.animes.exists?(anime_found)
+                        puts "This Anime is already on #{List.first.name}"
+                    else
+                        List.first.animes << anime_found
+                        puts ""
+                        puts "DONE! We've added #{anime_found.title} to #{List.first.name}!"
+                    end
+                end
 
+                if multiple_search_return == [List.second.name]
+                    if List.second.animes.exists?(anime_found)
+                        puts "This Anime is already on #{List.second.name}"
+                    else
+                        List.second.animes << anime_found
+                        puts ""
+                        puts "DONE! We've added #{anime_found.title} to #{List.second.name}!"
+                    end                            
+                end
+
+                if multiple_search_return == [List.first.name, List.second.name]
+                    if List.first.animes.exists?(anime_found)
+                        puts "This Anime is already on #{List.first.name}"
+                        if List.second.animes.exists?(anime_found)
+                            puts "This Anime is already on #{List.second.name}"
+                        else
+                            List.second.animes << anime_found
+                            puts ""
+                            puts "DONE! We've added #{anime_found.title} to #{List.second.name}!"
+                        end
+                        
+                    else
+                        if List.second.animes.exists?(anime_found)
+                            puts "This Anime is already on #{List.second.name}"
+                        else
+                            List.second.animes << anime_found
+                            puts ""
+                            puts "DONE! We've added #{anime_found.title} to #{List.second.name}!"
+                        end
+
+                        List.first.animes << anime_found
+                        puts ""
+                        puts "DONE! We've added #{anime_found.title} to #{List.first.name}!"
+                    end
+                end
+            end
+
+            if search_choice == "Search for another"
+            end
+
+            if search_choice == "Exit"
+            end
+    else
+       sorry_not_found
+    end
+end
+
+def sorry_not_found
+    puts "" 
+    puts "Sorry we couldn't find that Anime :("
+    puts ""
+    yes_or_no = prompt.yes?(“search again?“)
+        if yes_or_no
+            search_by_title
+        else
+            main_menu
+        end 
 end
 
 

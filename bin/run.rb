@@ -116,7 +116,6 @@ prompt = TTY::Prompt.new
                         end
 
                         if multiple_search_return == [List.first.name, List.second.name]
-                            #NOT DONE!
                             if List.first.animes.exists?(anime_found)
                                 if List.second.animes.exists?(anime_found)
                                     puts "This Anime is already on #{List.second.name}"
