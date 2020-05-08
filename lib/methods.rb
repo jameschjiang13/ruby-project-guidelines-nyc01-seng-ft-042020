@@ -106,7 +106,7 @@ def add_to_list
         List.first.animes << actual_current_anime
         List.second.animes << actual_current_anime
         puts ""
-        puts "DONE! We've added #{current_anime.title} to both lists!\n\nHere is another Anime"
+        puts "DONE! We've added #{actual_current_anime.title} to both lists!\n\nHere is another Anime"
     end
     browse_top_anime
     browse_anime_menu
