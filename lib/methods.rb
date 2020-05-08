@@ -64,7 +64,6 @@ end
 
 def browse_top_anime
     current_anime
-    # current_anime = (sorted_anime - List.first.animes - List.second.animes - List.third.animes)[0]
     puts ""
     puts "Tile: #{current_anime.title}\nRating: #{current_anime.rating}\nSynopsis: #{current_anime.synopsis}"
     puts ""
@@ -108,7 +107,7 @@ def remove_anime
         display_second_list 
         gets_remove(List.second.animes)
     end 
-    #back to a menu 
+    main_menu
 end
 
 def gets_remove(list)
@@ -189,7 +188,7 @@ def add_to_list
         puts "DONE! We've added #{actual_current_anime.title} to both lists!\n\nHere is another Anime"
     end
     browse_top_anime
-    browse_anime_menu
+    # browse_anime_menu
 end
 
 def display_first_list
@@ -302,18 +301,4 @@ def sorry_not_found
             main_menu
         end 
 end
-
-
-welcome_message
-
-main_menu
-
-
-# def display_anime_list 
-
-# end 
-
-# def browse_anime 
-
-# end 
 
